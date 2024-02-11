@@ -1,0 +1,31 @@
+.game-container {
+	font-family: var(--game-font);
+	max-width: 300px;
+	margin: 0 auto;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.timer {
+	width: 243px;
+	height: 243px;
+	border-radius: 50%;
+	border: 15px solid #000;
+	margin: 150px auto; /* Bajar el margin, tengo que agrandar el tamaño de las manos */
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.timer__counter {
+	font-size: 100px;
+	font-weight: 700;
+}
+.hands-container {
+	display: flex;
+	justify-content: space-between;
+}
+.prueba {
+	display: none;
+}

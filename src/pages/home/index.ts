@@ -1,6 +1,6 @@
 export function homePage(params) {
 	const div = document.createElement('div');
-  div.classList.add("home-container")
+	div.classList.add('home-container');
 
 	div.innerHTML = `
     <main class="main-section">

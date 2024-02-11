@@ -1,6 +1,7 @@
 import { homePage } from './pages/home';
 import { rulesPage } from './pages/rules';
-// import { gamePage } from './pages/game';
+import { gamePage } from './pages/game';
+// import { resultsPage} from "./pages/results";
 
 const BASE_PATH = '/dwf-n2-desafio_ppt';
 
@@ -16,6 +17,10 @@ const routes = [
 	{
 		path: /\/rules/,
 		component: rulesPage,
+	},
+	{
+		path: /\/game/,
+		component: gamePage,
 	},
 	// {
 	// 	path: /\/dwf-n2-ejercicio_wizard\/thankyou/,
