@@ -1,8 +1,19 @@
-h1.title {
-	margin: 60px auto 30px;
+.home-container {
+	max-width: 300px;
+	margin: 0 auto;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+/* .main-section {
+} */
+.title {
 	color: #009048;
 	font-weight: 700;
 	font-size: 80px;
-	/* max-width: 308px;
-	height: 220px; */
+}
+.hands-container{
+	display: flex; 
+	justify-content: space-between;
 }

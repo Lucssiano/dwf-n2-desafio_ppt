@@ -18,6 +18,7 @@ class MyButton extends HTMLElement {
 		const style = document.createElement('style');
 		style.innerHTML = `
       .button {
+        display: block;
         font-family: 'Odibee Sans', sans-serif;    
         font-size: 45px;
         cursor: pointer;
@@ -28,14 +29,8 @@ class MyButton extends HTMLElement {
         border: 10px solid #001997;
         background-color: #006CFC;
         color: #D8FCFC;
-    
       }
     `;
-
-		/*     
-     max-width: 405px;
-    display: block;
-        margin: 0 auto; */
 
 		this.shadow.appendChild(style);
 	}
