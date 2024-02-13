@@ -10,6 +10,7 @@
 .paragraph {
 	font-size: 40px;
 	font-weight: 600;
+	margin: 30px 0;
 }
 .hands-container {
 	display: flex;

@@ -8,24 +8,39 @@
 	justify-content: space-between;
 }
 .timer {
-	width: 243px;
-	height: 243px;
+	width: 180px;
+	height: 180px;
 	border-radius: 50%;
-	border: 15px solid #000;
-	margin: 150px auto; /* Bajar el margin, tengo que agrandar el tamaño de las manos */
+	border: 12px solid #000;
+	margin: auto; /* Bajar el margin, tengo que agrandar el tamaño de las manos */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
 .timer__counter {
-	font-size: 100px;
+	font-size: 80px;
 	font-weight: 700;
 }
-.hands-container {
+.hands-game-container {
 	display: flex;
 	justify-content: space-between;
+	height: 160px;
 }
-.prueba {
-	display: none;
+.hands-game-container.rotate {
+	transform: rotate(180deg);
+	pointer-events: none;
+	opacity: 0.5;
+}
+.user-hand {
+	transition: transform 0.5s;
+}
+.user-hand.active {
+	transform: translateY(-50%);
+	/* pointer-events: none; */
+}
+.user-hand.inactive {
+	opacity: 0.5;
+	transform: translateY(50%);
+	pointer-events: none;
 }

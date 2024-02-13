@@ -1,9 +1,8 @@
-import rock from '../../img/rock.png';
-import paper from '../../img/paper.png';
-import scissors from '../../img/scissors.png';
-/* Me tira errores */
-
-// type HandType = "rock" | "paper" | "scissors";
+const hands = {
+	rock: require('url:../../img/rock.png'),
+	paper: require('url:../../img/paper.png'),
+	scissors: require('url:../../img/scissors.png'),
+};
 
 class Hand extends HTMLElement {
 	shadow: ShadowRoot;
@@ -18,21 +17,18 @@ class Hand extends HTMLElement {
 	}
 
 	render() {
-		const typeOfHand = this.getAttribute('type');
-		let imageURL;
-		if (typeOfHand == 'rock') imageURL = rock;
-		else if (typeOfHand == 'paper') imageURL = paper;
-		else if (typeOfHand == 'scissors') imageURL = scissors;
-		// const rockImage = require("url:/src/img/rock.png");
-		// const image = require(`url:../../src/img/${typeOfHand}.png`);
+		const typeOfHand = this.getAttribute('type') || 'rock';
 
 		this.shadow.innerHTML = `
-       <img src="${imageURL}" class="hand-image">
+       <img src="${hands[typeOfHand]}" class="hand-image">
     `;
 
 		const style = document.createElement('style');
 		style.innerHTML = `
-
+		.hand-image {
+			cursor: pointer;
+			height: 100%;
+		}
     `;
 
 		this.shadow.appendChild(style);
