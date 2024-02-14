@@ -2,35 +2,33 @@ export function gamePage(params) {
 	const div = document.createElement('div');
 	div.classList.add('game-container');
 
-	// let counter = 4;
-	// const interval = setInterval(() => {
-	// 	counter = counter - 1;
-	// 	if (counter == 0) clearInterval(interval);
-	// 	console.log(counter);
-	// }, 1000);
-	/* ${counter} */
-
 	div.innerHTML = `
-		 <div class="hands-game-container rotate">
-				<custom-hand type="rock" class="computer-hand"></custom-hand>
-				<custom-hand type="paper" class="computer-hand"></custom-hand>
-				<custom-hand type="scissors" class="computer-hand"></custom-hand>
+		<div class="hands-game-container rotate">
+			<custom-hand type="rock" class="computer-hand"></custom-hand>
+			<custom-hand type="paper" class="computer-hand"></custom-hand>
+			<custom-hand type="scissors" class="computer-hand"></custom-hand>
 		</div>
-     <div class="timer">
-        <span class="timer__counter">3</span>
-     </div>
-     <div class="hands-game-container">
-         <custom-hand type="rock" class="user-hand"></custom-hand>
-         <custom-hand type="paper" class="user-hand"></custom-hand>
-         <custom-hand type="scissors" class="user-hand"></custom-hand>
-     </div>
+		<div class="timer">
+			<span class="timer__counter"></span>
+		</div>
+		<div class="hands-game-container">
+			<custom-hand type="rock" class="user-hand"></custom-hand>
+			<custom-hand type="paper" class="user-hand"></custom-hand>
+			<custom-hand type="scissors" class="user-hand"></custom-hand>
+		</div>
   `;
-	// <div class="results-container"></div>
 
-	/* Me da null o undefined*/
-	// const hand = div.querySelector('custom-hand');
-	// const image = hand?.shadowRoot?.querySelector('img');
-	// console.log(image);
+  
+	let counter = 3;
+	// const timerContainer = div.querySelector(".timer");
+	const timerCounter = div.querySelector(".timer__counter");
+	const interval = setInterval(() => {
+		if (timerCounter) timerCounter.textContent = counter.toString();
+		counter--;
+		if (counter < 0) clearInterval(interval);
+	}, 1000);
+
+	// <div class="results-container"></div>
 
 	const hands = div.querySelectorAll('custom-hand'); // Esto es un NodeList
 	const handsArray = Array.from(hands);
