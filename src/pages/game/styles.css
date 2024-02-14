@@ -1,3 +1,12 @@
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
 .game-container {
 	font-family: var(--game-font);
 	max-width: 300px;
@@ -7,18 +16,26 @@
 	flex-direction: column;
 	justify-content: space-between;
 }
-.timer {
+.timer-container {
+	position: relative;
+	margin: auto;
+}
+.loader {
 	width: 180px;
 	height: 180px;
 	border-radius: 50%;
-	border: 12px solid #000;
-	margin: auto; /* Bajar el margin, tengo que agrandar el tamaño de las manos */
-	display: flex;
+	border: 12px solid #f1f1f1;
+	border-top: 12px solid #000;
+	/* display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: center; */
+	animation: spin 1s linear infinite;
 }
 .timer__counter {
+	position: absolute;
+	top: 30%;
+	left: 40%;
 	font-size: 80px;
 	font-weight: 700;
 }
@@ -36,8 +53,16 @@
 	transition: transform 0.5s;
 }
 .user-hand.active {
+	pointer-events: none;
+}
+.user-hand.active.paper {
 	transform: translateY(-50%);
-	/* pointer-events: none; */
+}
+.user-hand.active.scissors {
+	transform: translate(-120px, -55%);
+}
+.user-hand.active.rock {
+	transform: translate(95px, -55%);
 }
 .user-hand.inactive {
 	opacity: 0.5;

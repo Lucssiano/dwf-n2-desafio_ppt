@@ -8,8 +8,9 @@ export function gamePage(params) {
 			<custom-hand type="paper" class="computer-hand"></custom-hand>
 			<custom-hand type="scissors" class="computer-hand"></custom-hand>
 		</div>
-		<div class="timer">
-			<span class="timer__counter"></span>
+		<div class="timer-container">
+			<div class="loader"></div>
+			<div class="timer__counter">3</div>
 		</div>
 		<div class="hands-game-container">
 			<custom-hand type="rock" class="user-hand"></custom-hand>
@@ -18,14 +19,21 @@ export function gamePage(params) {
 		</div>
   `;
 
-  
+	const timerContainer = div.querySelector('.timer-container');
+	const timerCounter = div.querySelector('.timer__counter');
 	let counter = 3;
-	// const timerContainer = div.querySelector(".timer");
-	const timerCounter = div.querySelector(".timer__counter");
+
 	const interval = setInterval(() => {
+		/* Se queda mucho tiempo con el 3 y no avanza como por 2 segundos, averiguar por qué */
 		if (timerCounter) timerCounter.textContent = counter.toString();
 		counter--;
-		if (counter < 0) clearInterval(interval);
+		if (counter < 0) {
+			timerContainer?.remove();
+			clearInterval(interval);
+		}
+		/* Tengo que agregar que pasa si el usuario no presiona ninguna mano */
+		/* Tengo que agregar la jugada aleatoria de la computadora */
+		/* Tengo que agregar el uso del state */
 	}, 1000);
 
 	// <div class="results-container"></div>
@@ -35,10 +43,11 @@ export function gamePage(params) {
 
 	handsArray.forEach((hand) => {
 		hand.addEventListener('click', () => {
-			// const handImage = hand.shadowRoot?.querySelector('img');
-			hand.classList.toggle('active');
+			hand.classList.add('active');
 			const inactiveHands = handsArray.filter((h) => h !== hand);
-			inactiveHands.forEach((inactiveHand) => inactiveHand.classList.toggle('inactive'));
+			inactiveHands.forEach((inactiveHand) => inactiveHand.classList.add('inactive'));
+			const handType = hand.getAttribute('type') || 'rock';
+			hand.classList.add(handType);
 		});
 	});
 
