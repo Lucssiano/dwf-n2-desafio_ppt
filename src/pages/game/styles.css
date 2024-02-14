@@ -26,10 +26,6 @@
 	border-radius: 50%;
 	border: 12px solid #f1f1f1;
 	border-top: 12px solid #000;
-	/* display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center; */
 	animation: spin 1s linear infinite;
 }
 .timer__counter {
@@ -47,22 +43,37 @@
 .hands-game-container.rotate {
 	transform: rotate(180deg);
 	pointer-events: none;
+}
+.computer-hand {
 	opacity: 0.5;
 }
-.user-hand {
+.user-hand,
+.computer-hand {
 	transition: transform 0.5s;
 }
 .user-hand.active {
 	pointer-events: none;
 }
+.computer-hand.active {
+	opacity: 1;
+}
 .user-hand.active.paper {
 	transform: translateY(-50%);
+}
+.computer-hand.active.paper {
+	transform: translate(5px, -100%);
 }
 .user-hand.active.scissors {
 	transform: translate(-120px, -55%);
 }
+.computer-hand.active.scissors {
+	transform: translate(-105px, -110%);
+}
 .user-hand.active.rock {
 	transform: translate(95px, -55%);
+}
+.computer-hand.active.rock {
+	transform: translate(110px, -125%);
 }
 .user-hand.inactive {
 	opacity: 0.5;
