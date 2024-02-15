@@ -19,6 +19,15 @@ export function gamePage(params) {
 		</div>
   `;
 
+  /* <div class="counter-container">
+			<h4>Computadora</h4>
+			<p class="counter">0</p>
+		</div> */
+  /*  <div class="counter-container">
+			<h4>Usuario</h4>
+			<p class="counter">1</p>
+		</div> */
+
 	const userHandsEl = div.querySelector('.user-hands')?.querySelectorAll('custom-hand') || []; // Esto es un NodeList // Tengo que poner el || [] porque sino me marca como que puede ser undefined
 	const userHandsArray = Array.from(userHandsEl); // Transformo la NodeList en un Array
 
@@ -37,6 +46,7 @@ export function gamePage(params) {
 			timerContainerEl?.remove();
 			checkHandMovement(userHandsArray);
 			makeComputerMovement(computerHandsArray);
+			// decideWinner();
 			clearInterval(interval);
 		}
 		/* Ver de agregar contador durante la partida, tanto para el usuario cómo para la computadora */
@@ -45,7 +55,10 @@ export function gamePage(params) {
 
 	// <div class="results-container"></div>
 
-	userHandsArray.forEach((hand) => hand.addEventListener('click', () => toggleHandClasses(userHandsArray, hand)));
+	userHandsArray.forEach((hand) => hand.addEventListener('click', () => {
+		toggleHandClasses(userHandsArray, hand);
+		/* Guardar jugada del user en el state */
+	}));
 
 	return div;
 }
@@ -55,6 +68,7 @@ function checkHandMovement(handsArray) {
 	if (noHandIsActive) {
 		const paperHand = handsArray.find((hand) => (hand as Element).getAttribute('type') == 'paper');
 		toggleHandClasses(handsArray, paperHand);
+		/* Guardar jugada del user en el state */
 	}
 }
 
@@ -70,4 +84,5 @@ function makeComputerMovement(computerHandsArray) {
 	const numberBetween0and2 = Math.floor(Math.random() * 3);
 	const handToMove = computerHandsArray[numberBetween0and2];
 	toggleHandClasses(computerHandsArray, handToMove);
+	/* Guardar jugada de la compu en el state */
 }
