@@ -1,3 +1,5 @@
+import { state } from '../../state';
+
 export function gamePage(params) {
 	const div = document.createElement('div');
 	div.classList.add('game-container');
@@ -40,7 +42,7 @@ export function gamePage(params) {
 			checkHandMovement(userHandsArray);
 			makeComputerMovement(computerHandsArray);
 			// showResults(div); /* Funcion para mostrar los resultados luego de la jugada, pero previamente se debe chequear si terminó la partida */
-			// decideWinner();
+			// decideWinner(); /* Ver de ponerla en el state */
 			clearInterval(interval);
 		}
 		/* Ver de agregar contador durante la partida, tanto para el usuario cómo para la computadora */
@@ -49,12 +51,7 @@ export function gamePage(params) {
 
 	// <div class="results-container"></div>
 
-	userHandsArray.forEach((hand) =>
-		hand.addEventListener('click', () => {
-			toggleHandClasses(userHandsArray, hand);
-			/* Guardar jugada del user en el state */
-		}),
-	);
+	userHandsArray.forEach((hand) => hand.addEventListener('click', () => toggleHandClasses(userHandsArray, hand, 'user')));
 
 	return div;
 }
@@ -63,24 +60,24 @@ function checkHandMovement(handsArray) {
 	const noHandIsActive = handsArray.every((hand) => !(hand as Element).classList.contains('active'));
 	if (noHandIsActive) {
 		const paperHand = handsArray.find((hand) => (hand as Element).getAttribute('type') == 'paper');
-		toggleHandClasses(handsArray, paperHand);
-		/* Guardar jugada del user en el state */
+		toggleHandClasses(handsArray, paperHand, 'user');
 	}
 }
 
-function toggleHandClasses(handsArray, activeHand) {
+function toggleHandClasses(handsArray, activeHand, player) {
 	activeHand.classList.add('active');
 	const inactiveHands = handsArray.filter((h) => h !== activeHand);
 	inactiveHands.forEach((inactiveHand) => inactiveHand.classList.add('inactive'));
 	const handType = activeHand.getAttribute('type') || 'rock';
 	activeHand.classList.add(handType);
+
+	state.setPlay(handType, player);
 }
 
 function makeComputerMovement(computerHandsArray) {
 	const numberBetween0and2 = Math.floor(Math.random() * 3);
 	const handToMove = computerHandsArray[numberBetween0and2];
-	toggleHandClasses(computerHandsArray, handToMove);
-	/* Guardar jugada de la compu en el state */
+	toggleHandClasses(computerHandsArray, handToMove, 'computer');
 }
 
 // function showResults(container) {
