@@ -19,6 +19,8 @@ export function gamePage(params) {
 		</div>
   `;
 
+	/* <results-scoreboard></results-scoreboard> */
+
 	const userHandsEl = div.querySelector('.user-hands')?.querySelectorAll('custom-hand') || []; // Esto es un NodeList // Tengo que poner el || [] porque sino me marca como que puede ser undefined
 	const userHandsArray = Array.from(userHandsEl); // Transformo la NodeList en un Array
 
@@ -37,13 +39,12 @@ export function gamePage(params) {
 			timerContainerEl?.remove();
 			checkHandMovement(userHandsArray);
 			makeComputerMovement(computerHandsArray);
+			// showResults(div); /* Funcion para mostrar los resultados luego de la jugada, pero previamente se debe chequear si terminó la partida */
 			clearInterval(interval);
 		}
 		/* Ver de agregar contador durante la partida, tanto para el usuario cómo para la computadora */
 		/* Tengo que agregar el uso del state */
 	}, 1000);
-
-	// <div class="results-container"></div>
 
 	userHandsArray.forEach((hand) => hand.addEventListener('click', () => toggleHandClasses(userHandsArray, hand)));
 
@@ -71,3 +72,10 @@ function makeComputerMovement(computerHandsArray) {
 	const handToMove = computerHandsArray[numberBetween0and2];
 	toggleHandClasses(computerHandsArray, handToMove);
 }
+
+// function showResults(container) {
+// 	const resultScoreboard = document.createElement('results-scoreboard');
+// 	setTimeout(() => {
+// 		container.appendChild(resultScoreboard);
+// 	}, 2000);
+// }
