@@ -40,13 +40,21 @@ export function gamePage(params) {
 			checkHandMovement(userHandsArray);
 			makeComputerMovement(computerHandsArray);
 			// showResults(div); /* Funcion para mostrar los resultados luego de la jugada, pero previamente se debe chequear si terminó la partida */
+			// decideWinner();
 			clearInterval(interval);
 		}
 		/* Ver de agregar contador durante la partida, tanto para el usuario cómo para la computadora */
 		/* Tengo que agregar el uso del state */
 	}, 1000);
 
-	userHandsArray.forEach((hand) => hand.addEventListener('click', () => toggleHandClasses(userHandsArray, hand)));
+	// <div class="results-container"></div>
+
+	userHandsArray.forEach((hand) =>
+		hand.addEventListener('click', () => {
+			toggleHandClasses(userHandsArray, hand);
+			/* Guardar jugada del user en el state */
+		}),
+	);
 
 	return div;
 }
@@ -56,6 +64,7 @@ function checkHandMovement(handsArray) {
 	if (noHandIsActive) {
 		const paperHand = handsArray.find((hand) => (hand as Element).getAttribute('type') == 'paper');
 		toggleHandClasses(handsArray, paperHand);
+		/* Guardar jugada del user en el state */
 	}
 }
 
@@ -71,6 +80,7 @@ function makeComputerMovement(computerHandsArray) {
 	const numberBetween0and2 = Math.floor(Math.random() * 3);
 	const handToMove = computerHandsArray[numberBetween0and2];
 	toggleHandClasses(computerHandsArray, handToMove);
+	/* Guardar jugada de la compu en el state */
 }
 
 // function showResults(container) {
