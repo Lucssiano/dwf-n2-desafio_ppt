@@ -41,6 +41,7 @@ export function gamePage(params) {
 			timerContainerEl?.remove();
 			checkHandMovement(userHandsArray);
 			makeComputerMovement(computerHandsArray);
+			saveGame();
 			// showResults(div); /* Funcion para mostrar los resultados luego de la jugada, pero previamente se debe chequear si terminó la partida */
 			// decideWinner(); /* Ver de ponerla en el state */
 			clearInterval(interval);
@@ -78,6 +79,15 @@ function makeComputerMovement(computerHandsArray) {
 	const numberBetween0and2 = Math.floor(Math.random() * 3);
 	const handToMove = computerHandsArray[numberBetween0and2];
 	toggleHandClasses(computerHandsArray, handToMove, 'computer');
+}
+
+function saveGame(){
+	const currentGame = state.getState().currentGame;
+	const play = {
+		computer: currentGame.computer,
+		user: currentGame.user
+	}
+	state.pushToHistory(play);
 }
 
 // function showResults(container) {
