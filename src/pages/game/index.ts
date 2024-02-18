@@ -10,9 +10,21 @@ export function gamePage(params) {
 			<custom-hand type="paper" class="computer-hand"></custom-hand>
 			<custom-hand type="scissors" class="computer-hand"></custom-hand>
 		</div>
-		<div class="timer-container">
-			<div class="loader"></div>
-			<div class="timer__counter"></div>
+		<div class="middle-game-section">
+		  <div class="participants-scoreboard">
+				<div class="middle-game-section__counter">
+					<h4 class="counter-title">Computadora</h4>
+					<p class="counter-number computer">0</p>
+				</div>
+				<div class="middle-game-section__counter">
+					<h4 class="counter-title">Usuario</h4>
+					<p class="counter-number user">0</p>
+				</div>
+			</div>
+			<div class="timer-container">
+				<div class="loader"></div>
+				<div class="timer__counter"></div>
+			</div>
 		</div>
 		<div class="hands-game-container user-hands">
 			<custom-hand type="rock" class="user-hand"></custom-hand>
@@ -21,40 +33,57 @@ export function gamePage(params) {
 		</div>
   `;
 
-	/* <results-scoreboard></results-scoreboard> */
+	startGame(div);
 
-	const userHandsEl = div.querySelector('.user-hands')?.querySelectorAll('custom-hand') || []; // Esto es un NodeList // Tengo que poner el || [] porque sino me marca como que puede ser undefined
-	const userHandsArray = Array.from(userHandsEl); // Transformo la NodeList en un Array
+	div.addEventListener('playAgain', () => {
+		resetGame(div);
+	});
 
-	const timerContainerEl = div.querySelector('.timer-container');
-	const timerCounterEl = div.querySelector('.timer__counter');
+	return div;
+}
+
+function resetGame(container) {
+	const playerCounters = Array.from(container.querySelectorAll('.counter-number'));
+	playerCounters.forEach((counter) => ((counter as HTMLElement).innerText = '0'));
+
+	const userHandsArray = Array.from(container.querySelector('.user-hands')?.querySelectorAll('custom-hand'));
+	const computerHandsArray = Array.from(container.querySelector('.computer-hands')?.querySelectorAll('custom-hand')); // Es una NodeList, por eso la transformo
+	removeHandsClasses(userHandsArray);
+	removeHandsClasses(computerHandsArray);
+
+	startGame(container);
+}
+
+function startGame(container) {
+	const userHandsArray = Array.from(container.querySelector('.user-hands')?.querySelectorAll('custom-hand'));
+	const computerHandsArray = Array.from(container.querySelector('.computer-hands')?.querySelectorAll('custom-hand')); // Es una NodeList, por eso la transformo
+
+	const timerContainerEl = container.querySelector('.timer-container');
+	const timerCounterEl = container.querySelector('.timer__counter');
 	let counter = 3;
 
-	const computerHandsEl = div.querySelector('.computer-hands')?.querySelectorAll('custom-hand') || []; // Esto es un NodeList // Tengo que poner el || [] porque sino me marca como que puede ser undefined
-	const computerHandsArray = Array.from(computerHandsEl); // Transformo la NodeList en un Array
-
 	const interval = setInterval(() => {
+		timerContainerEl.classList.remove('inactive');
 		/* Se queda mucho tiempo con el 3 y no avanza como por 2 segundos, averiguar por qué */
 		if (timerCounterEl) timerCounterEl.textContent = counter.toString();
 		counter--;
 		if (counter < 0) {
-			timerContainerEl?.remove();
+			timerContainerEl?.classList.toggle('inactive');
 			checkHandMovement(userHandsArray);
 			makeComputerMovement(computerHandsArray);
-			saveGame();
-			// showResults(div); /* Funcion para mostrar los resultados luego de la jugada, pero previamente se debe chequear si terminó la partida */
-			// decideWinner(); /* Ver de ponerla en el state */
+			checkPlayWinner(container);
 			clearInterval(interval);
 		}
-		/* Ver de agregar contador durante la partida, tanto para el usuario cómo para la computadora */
-		/* Tengo que agregar el uso del state */
 	}, 1000);
 
-	// <div class="results-container"></div>
+	/* Puedo hacer que las funciones me devuelvan la mano que se utilizo */
 
-	userHandsArray.forEach((hand) => hand.addEventListener('click', () => toggleHandClasses(userHandsArray, hand, 'user')));
-
-	return div;
+	userHandsArray.forEach((hand) => {
+		(hand as HTMLElement).addEventListener('click', (e) => {
+			e.stopImmediatePropagation();
+			toggleHandClasses(userHandsArray, hand, 'user');
+		});
+	});
 }
 
 function checkHandMovement(handsArray) {
@@ -71,7 +100,6 @@ function toggleHandClasses(handsArray, activeHand, player) {
 	inactiveHands.forEach((inactiveHand) => inactiveHand.classList.add('inactive'));
 	const handType = activeHand.getAttribute('type') || 'rock';
 	activeHand.classList.add(handType);
-
 	state.setPlay(handType, player);
 }
 
@@ -81,18 +109,49 @@ function makeComputerMovement(computerHandsArray) {
 	toggleHandClasses(computerHandsArray, handToMove, 'computer');
 }
 
-function saveGame(){
-	const currentGame = state.getState().currentGame;
-	const play = {
-		computer: currentGame.computer,
-		user: currentGame.user
+function checkPlayWinner(container) {
+	const winner = state.whoWinsPlay();
+	if (winner !== 'draw') {
+		const playerCounterEl = container.querySelector(`.counter-number.${winner}`) as HTMLElement;
+		const playerCounterString = playerCounterEl?.textContent || '0';
+		let playerCounterNumber = parseInt(playerCounterString);
+		playerCounterNumber++;
+		playerCounterEl.innerText = playerCounterNumber.toString();
 	}
-	state.pushToHistory(play);
+	checkEndGame(container);
 }
 
-// function showResults(container) {
-// 	const resultScoreboard = document.createElement('results-scoreboard');
-// 	setTimeout(() => {
-// 		container.appendChild(resultScoreboard);
-// 	}, 2000);
-// }
+function checkEndGame(container) {
+	const userCounterEl = parseInt(container.querySelector('.counter-number.user').textContent);
+	const computerCounterEl = parseInt(container.querySelector('.counter-number.computer').textContent);
+
+	if (userCounterEl == 3 || computerCounterEl == 3) {
+		/* Creo que el contador deberia manejarlo con el state y la logica de cuando se suma 1 */
+		// state.whoWinsGame();
+		// userCounterEl == 3 ? state.addWin('user') : state.addWin('computer');
+		showResults(container);
+	} else {
+		const userHandsArray = Array.from(container.querySelector('.user-hands')?.querySelectorAll('custom-hand'));
+		const computerHandsArray = Array.from(container.querySelector('.computer-hands')?.querySelectorAll('custom-hand'));
+
+		setTimeout(() => {
+			removeHandsClasses(userHandsArray);
+			removeHandsClasses(computerHandsArray);
+			startGame(container);
+		}, 2000);
+	}
+}
+
+function removeHandsClasses(array) {
+	array.forEach((hand) => {
+		(hand as any).classList.remove('active');
+		(hand as any).classList.remove('inactive');
+	});
+}
+
+function showResults(container) {
+	const resultScoreboard = document.createElement('results-scoreboard');
+	setTimeout(() => {
+		container.appendChild(resultScoreboard);
+	}, 2000);
+}

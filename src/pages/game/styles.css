@@ -8,7 +8,32 @@
 	justify-content: space-between;
 }
 
-/* TIMER BLOCK */
+/* MIDDLE GAME BLOCK */
+.middle-game-section {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+.participants-scoreboard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 175px;
+}
+/* .middle-game-section__counter {
+} */
+.counter-title {
+	margin: 0;
+	margin-bottom: 10px;
+	font-size: 23px;
+}
+.counter-number {
+	margin: 0;
+	text-align: center;
+	font-size: 20px;
+	color: #070f2b;
+	font-weight: 700;
+}
 @keyframes spin {
 	0% {
 		transform: rotate(0deg);
@@ -20,6 +45,9 @@
 .timer-container {
 	position: relative;
 	margin: auto;
+}
+.timer-container.inactive {
+	opacity: 0;
 }
 .loader {
 	width: 180px;

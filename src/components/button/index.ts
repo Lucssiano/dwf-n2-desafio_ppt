@@ -22,7 +22,7 @@ class MyButton extends HTMLElement {
         font-family: 'Odibee Sans', sans-serif;    
         font-size: 45px;
         cursor: pointer;
-        padding: 20px 0;
+        padding: 20px 10px;
         text-align: center;
         width: 100%;
         border-radius: 10px;

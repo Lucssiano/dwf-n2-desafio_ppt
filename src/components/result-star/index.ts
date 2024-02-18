@@ -16,18 +16,30 @@ class ResultStar extends HTMLElement {
 	}
 
 	render() {
-		/* Se debe traer del state el dato de si ganó o perdió */
-		/* Ver si conviene poner la imagen en un background-image de un contenedor para poder posicionar bien el titulo */
+		/* Se debe traer del state el dato de si ganó o perdió, para cambiar la imagen y el titulo */
 		this.shadow.innerHTML = `
-      <img src=${stars.winStar} alt="Win star"> 
-      
-    `;
-		/* <h3>Ganaste!</h3> */
+			<div class="star-container">
+				<img src=${stars.winStar} alt="Win star" class="star-img"> 
+				<h3 class="star-title">Ganaste!</h3> 
+      </div>  
+				`;
 		/* <h3>Perdiste!</h3> */
 
 		const style = document.createElement('style');
 		style.innerHTML = `
-		
+			.star-container {
+				position: relative;
+			}
+			.star-img {
+				width: 250px;
+				height: 250px;
+			}
+			.star-title {
+				position: absolute;
+				top: 20%;
+				left: 30%;
+				font-size: 45px;
+			}
     `;
 
 		this.shadow.appendChild(style);
