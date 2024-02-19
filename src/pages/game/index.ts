@@ -11,16 +11,7 @@ export function gamePage(params) {
 			<custom-hand type="scissors" class="computer-hand"></custom-hand>
 		</div>
 		<div class="middle-game-section">
-		  <div class="participants-scoreboard">
-				<div class="middle-game-section__counter">
-					<h4 class="counter-title">Computadora</h4>
-					<p class="counter-number computer">0</p>
-				</div>
-				<div class="middle-game-section__counter">
-					<h4 class="counter-title">Usuario</h4>
-					<p class="counter-number user">0</p>
-				</div>
-			</div>
+		  <players-scoreboard></players-scoreboard>
 			<div class="timer-container">
 				<div class="loader"></div>
 				<div class="timer__counter"></div>
@@ -34,6 +25,7 @@ export function gamePage(params) {
   `;
 
 	startGame(div);
+	// showResults(div, 'computer');
 
 	div.addEventListener('playAgain', () => {
 		resetGame(div);
@@ -42,9 +34,10 @@ export function gamePage(params) {
 	return div;
 }
 
+/* Ver si puedo hacer que las manos se vuelvan a renderizar con el cambio del state y no tener que hacer el cambio de clases y demás */
+
 function resetGame(container) {
-	const playerCounters = Array.from(container.querySelectorAll('.counter-number'));
-	playerCounters.forEach((counter) => ((counter as HTMLElement).innerText = '0'));
+	state.resetGameCounter();
 
 	const userHandsArray = Array.from(container.querySelector('.user-hands')?.querySelectorAll('custom-hand'));
 	const computerHandsArray = Array.from(container.querySelector('.computer-hands')?.querySelectorAll('custom-hand')); // Es una NodeList, por eso la transformo
@@ -71,7 +64,8 @@ function startGame(container) {
 			timerContainerEl?.classList.toggle('inactive');
 			checkHandMovement(userHandsArray);
 			makeComputerMovement(computerHandsArray);
-			checkPlayWinner(container);
+			state.setPlayWinner();
+			checkEndGame(container);
 			clearInterval(interval);
 		}
 	}, 1000);
@@ -109,27 +103,14 @@ function makeComputerMovement(computerHandsArray) {
 	toggleHandClasses(computerHandsArray, handToMove, 'computer');
 }
 
-function checkPlayWinner(container) {
-	const winner = state.whoWinsPlay();
-	if (winner !== 'draw') {
-		const playerCounterEl = container.querySelector(`.counter-number.${winner}`) as HTMLElement;
-		const playerCounterString = playerCounterEl?.textContent || '0';
-		let playerCounterNumber = parseInt(playerCounterString);
-		playerCounterNumber++;
-		playerCounterEl.innerText = playerCounterNumber.toString();
-	}
-	checkEndGame(container);
-}
-
 function checkEndGame(container) {
-	const userCounterEl = parseInt(container.querySelector('.counter-number.user').textContent);
-	const computerCounterEl = parseInt(container.querySelector('.counter-number.computer').textContent);
+	const currentGameCounter = state.getState().currentGameCounter;
 
-	if (userCounterEl == 3 || computerCounterEl == 3) {
-		/* Creo que el contador deberia manejarlo con el state y la logica de cuando se suma 1 */
-		// state.whoWinsGame();
-		// userCounterEl == 3 ? state.addWin('user') : state.addWin('computer');
-		showResults(container);
+	if (currentGameCounter.user == 3 || currentGameCounter.computer == 3) {
+		const userWins = currentGameCounter.user == 3;
+		const winPlayer = userWins ? 'user' : 'computer';
+		state.addWin(winPlayer);
+		showResults(container, winPlayer);
 	} else {
 		const userHandsArray = Array.from(container.querySelector('.user-hands')?.querySelectorAll('custom-hand'));
 		const computerHandsArray = Array.from(container.querySelector('.computer-hands')?.querySelectorAll('custom-hand'));
@@ -149,9 +130,19 @@ function removeHandsClasses(array) {
 	});
 }
 
-function showResults(container) {
+function showResults(container, winPlayer) {
 	const resultScoreboard = document.createElement('results-scoreboard');
 	setTimeout(() => {
 		container.appendChild(resultScoreboard);
+		// const scoreboardContainerEl = resultScoreboard.shadowRoot?.querySelector('.results');
+		// scoreboardContainerEl?.classList.add(
+		// 	`${winPlayer == 'user' ? 'winner' : 'loser'}`,
+		// ); /* Ver si puedo manejarlo con el state, pero así funciona */
+
+		// const scoreboardStarEl = resultScoreboard.shadowRoot?.querySelector('result-star');
+		// scoreboardStarEl?.setAttribute('result', `${winPlayer == 'user' ? 'winner' : 'loser'}`);
+		// scoreboardStarEl?.classList.add(
+		// 	`${winPlayer == 'user' ? 'winner' : 'loser'}`,
+		// ); /* Agrega bien pero no lo puedo tomar desde el componente */
 	}, 2000);
 }

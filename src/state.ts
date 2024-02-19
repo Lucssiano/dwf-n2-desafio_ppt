@@ -11,33 +11,30 @@ export const state = {
 			computer: '',
 			user: '',
 		},
-
-		/* Lista de objetos con jugadas */
-		// history: [] as Game[],
-		/* Por cada jugada se saca quien gano a partir de whoWins(currentGame.computer, currentGame.user) */
-		/* Hago que me devuelva si es el usuario o computer quien gana y utilizo la misma logica en la page  */
-
-		/* Cuando llega a 3 manos ganadas, se debe sumar 1 al contador */
+		currentGameCounter: {
+			computer: 0,
+			user: 0,
+		},
 		gameWins: {
 			computer: 0,
 			user: 0,
 		},
 	},
-	// listeners: [],
+	listeners: [],
 	init() {
 		// localStorage.removeItem('state');
 		// const savedState = localStorage.getItem('state');
 		// if (savedState) this.setState(JSON.parse(savedState));
 	},
-	// subscribe(callback: (any) => any) {
-	// 	this.listeners.push(callback);
-	// },
+	subscribe(callback: (any) => any) {
+		this.listeners.push(callback);
+	},
 	getState() {
 		return this.data;
 	},
 	setState(newState) {
 		this.data = newState;
-		// this.listeners.forEach((callback) => callback());
+		this.listeners.forEach((callback) => callback());
 		console.log('nueva data', this.data);
 		// console.log('entró');
 		// localStorage.setItem('state', JSON.stringify(newState));
@@ -52,15 +49,18 @@ export const state = {
 		currentState.gameWins[player]++;
 		this.setState(currentState);
 	},
-	// whoWinsGame() {
-	// 	const currentState = this.getState();
-	// },
-	whoWinsPlay() {
+	resetGameCounter() {
+		const currentState = this.getState();
+		currentState.currentGameCounter.user = 0;
+		currentState.currentGameCounter.computer = 0;
+		this.setState(currentState);
+	},
+	setPlayWinner() {
 		const currentState = this.getState();
 		const userPlay = currentState.currentGame.user;
 		const computerPlay = currentState.currentGame.computer;
 
-		if (userPlay == computerPlay) return 'draw';
+		if (userPlay == computerPlay) return;
 
 		const userWinsCond1 = userPlay === 'scissors' && computerPlay === 'paper';
 		const userWinsCond2 = userPlay === 'paper' && computerPlay === 'rock';
@@ -68,7 +68,9 @@ export const state = {
 
 		const userWins = userWinsCond1 || userWinsCond2 || userWinsCond3;
 
-		if (userWins) return 'user';
-		else return 'computer';
+		if (userWins) currentState.currentGameCounter.user++;
+		else currentState.currentGameCounter.computer++;
+
+		this.setState(currentState);
 	},
 };

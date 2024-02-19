@@ -1,3 +1,5 @@
+import { state } from '../../state';
+
 const stars = {
 	winStar: require('url:../../img/win-star.png'),
 	loseStar: require('url:../../img/lose-star.png'),
@@ -5,6 +7,7 @@ const stars = {
 
 class ResultStar extends HTMLElement {
 	shadow: ShadowRoot;
+	win: boolean;
 
 	constructor() {
 		super();
@@ -12,33 +15,18 @@ class ResultStar extends HTMLElement {
 	}
 
 	connectedCallback() {
+		state.subscribe(() => {});
 		this.render();
 	}
 
 	render() {
-		/* Se debe traer del state el dato de si ganó o perdió, para cambiar la imagen y el titulo */
-		this.shadow.innerHTML = `
-			<div class="star-container">
-				<img src=${stars.winStar} alt="Win star" class="star-img"> 
-				<h3 class="star-title">Ganaste!</h3> 
-      </div>  
-				`;
-		/* <h3>Perdiste!</h3> */
+		this.shadow.innerHTML = ` <img src=${this.win ? stars.winStar : stars.loseStar} alt="Win star" class="star-img"> `;
 
 		const style = document.createElement('style');
 		style.innerHTML = `
-			.star-container {
-				position: relative;
-			}
 			.star-img {
 				width: 250px;
 				height: 250px;
-			}
-			.star-title {
-				position: absolute;
-				top: 20%;
-				left: 30%;
-				font-size: 45px;
 			}
     `;
 
