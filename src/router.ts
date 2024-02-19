@@ -47,7 +47,7 @@ export function initRouter(container: Element) {
 		}
 	}
 
-	if (location.pathname === '/') goTo('/home');
+	if (location.pathname === '/' || isGithubPages()) goTo('/home');
 	else handleRoute(location.pathname);
 
 	window.onpopstate = () => handleRoute(location.pathname);
