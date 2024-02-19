@@ -18,18 +18,20 @@ class ResultScoreboard extends HTMLElement {
 			// Ver que se haga un cambio en el state, porque no está entrando acá cuando renderiza
 			console.log(this.computerCounter, state.getState().gameWins.computer, 'COMPUTER');
 			console.log(this.userCounter, state.getState().gameWins.user, 'USER');
-			this.computerCounter !== state.getState().gameWins.computer
-				? this.addBackground('loser')
-				: this.addBackground('winner');
+			// this.computerCounter !== state.getState().gameWins.computer
+			// 	? this.addBackground('loser')
+			// 	: this.addBackground('winner');
 
 			this.computerCounter = currentGameGameWins.computer;
 			this.userCounter = currentGameGameWins.user;
-		});
+		  // this.render();		
+    });
 		this.render();
 		// this.render();
 	}
 
 	addBackground(background: Background) {
+    console.log("entro acá che")
 		this.shadowRoot?.querySelector('.results')?.classList.remove('loser');
 		this.shadowRoot?.querySelector('.results')?.classList.remove('winner');
 		this.shadowRoot?.querySelector('.results')?.classList.add(background);

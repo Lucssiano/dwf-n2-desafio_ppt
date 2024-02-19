@@ -134,6 +134,7 @@ function showResults(container, winPlayer) {
 	const resultScoreboard = document.createElement('results-scoreboard');
 	setTimeout(() => {
 		container.appendChild(resultScoreboard);
+		/* De esta manera funcionan los colores del tablero, pero no entiendo por qué */
 		// const scoreboardContainerEl = resultScoreboard.shadowRoot?.querySelector('.results');
 		// scoreboardContainerEl?.classList.add(
 		// 	`${winPlayer == 'user' ? 'winner' : 'loser'}`,
