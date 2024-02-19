@@ -25,7 +25,6 @@ export function gamePage(params) {
   `;
 
 	startGame(div);
-	// showResults(div, 'computer');
 
 	div.addEventListener('playAgain', () => {
 		resetGame(div);
@@ -132,18 +131,9 @@ function removeHandsClasses(array) {
 
 function showResults(container, winPlayer) {
 	const resultScoreboard = document.createElement('results-scoreboard');
+	resultScoreboard.setAttribute('result', winPlayer);
+
 	setTimeout(() => {
 		container.appendChild(resultScoreboard);
-		/* De esta manera funcionan los colores del tablero, pero no entiendo por qué */
-		// const scoreboardContainerEl = resultScoreboard.shadowRoot?.querySelector('.results');
-		// scoreboardContainerEl?.classList.add(
-		// 	`${winPlayer == 'user' ? 'winner' : 'loser'}`,
-		// ); /* Ver si puedo manejarlo con el state, pero así funciona */
-
-		// const scoreboardStarEl = resultScoreboard.shadowRoot?.querySelector('result-star');
-		// scoreboardStarEl?.setAttribute('result', `${winPlayer == 'user' ? 'winner' : 'loser'}`);
-		// scoreboardStarEl?.classList.add(
-		// 	`${winPlayer == 'user' ? 'winner' : 'loser'}`,
-		// ); /* Agrega bien pero no lo puedo tomar desde el componente */
 	}, 2000);
 }

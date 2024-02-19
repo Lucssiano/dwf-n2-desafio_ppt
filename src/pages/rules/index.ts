@@ -19,9 +19,7 @@ export function rulesPage(params) {
         </div>
     `;
 
-	/*          <p class="paragraph">
-            Gana quien llega a 3 manos ganadas o gana dos manos seguidas.
-          </p> */
+	/* Poner boton para reiniciar resultados */
 
 	const button = div.querySelector('custom-button');
 	button?.addEventListener('click', () => params.goTo('/game'));

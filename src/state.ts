@@ -23,8 +23,16 @@ export const state = {
 	listeners: [],
 	init() {
 		// localStorage.removeItem('state');
-		// const savedState = localStorage.getItem('state');
-		// if (savedState) this.setState(JSON.parse(savedState));
+		const savedState = localStorage.getItem('state');
+		if (savedState) this.setState(JSON.parse(savedState));
+	},
+	/* Metodo para sacar reiniciar el tablero cuando es necesario*/
+	resetScoreboard() {
+		localStorage.removeItem('state');
+		const currentState = this.getState();
+		currentState.gameWins.computer = 0;
+		currentState.gameWins.user = 0;
+		this.setState(currentState);
 	},
 	subscribe(callback: (any) => any) {
 		this.listeners.push(callback);
@@ -36,8 +44,7 @@ export const state = {
 		this.data = newState;
 		this.listeners.forEach((callback) => callback());
 		console.log('nueva data', this.data);
-		// console.log('entró');
-		// localStorage.setItem('state', JSON.stringify(newState));
+		localStorage.setItem('state', JSON.stringify(newState));
 	},
 	setPlay(hand: Hand, player: Player) {
 		const currentState = this.getState();

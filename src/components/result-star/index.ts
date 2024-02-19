@@ -15,12 +15,17 @@ class ResultStar extends HTMLElement {
 	}
 
 	connectedCallback() {
-		state.subscribe(() => {});
+		// console.log(this.parentElement);
+		// this.win = this.parentElement?.classList.contains('winner') || false;
+		// this.win = this.parentElement?.getAttribute('result') === 'user';
+		// console.log(this.parentElement?.getAttribute('result'));
+		// console.log(this.win);
 		this.render();
 	}
 
 	render() {
-		this.shadow.innerHTML = ` <img src=${this.win ? stars.winStar : stars.loseStar} alt="Win star" class="star-img"> `;
+		this.shadow.innerHTML = ` <img src="${this.win ? stars.winStar : stars.loseStar}" alt="Win star" class="star-img"> `;
+		/* No puedo cambiar la imagen, no me funciona bien */
 
 		const style = document.createElement('style');
 		style.innerHTML = `

@@ -13,25 +13,13 @@ class ResultScoreboard extends HTMLElement {
 	}
 
 	connectedCallback() {
-		state.subscribe(() => {
-			const currentGameGameWins = state.getState().gameWins;
-			// Ver que se haga un cambio en el state, porque no está entrando acá cuando renderiza
-			console.log(this.computerCounter, state.getState().gameWins.computer, 'COMPUTER');
-			console.log(this.userCounter, state.getState().gameWins.user, 'USER');
-			// this.computerCounter !== state.getState().gameWins.computer
-			// 	? this.addBackground('loser')
-			// 	: this.addBackground('winner');
-
-			this.computerCounter = currentGameGameWins.computer;
-			this.userCounter = currentGameGameWins.user;
-		  // this.render();		
-    });
+		const currentGameGameWins = state.getState().gameWins;
+		this.computerCounter = currentGameGameWins.computer;
+		this.userCounter = currentGameGameWins.user;
 		this.render();
-		// this.render();
 	}
 
 	addBackground(background: Background) {
-    console.log("entro acá che")
 		this.shadowRoot?.querySelector('.results')?.classList.remove('loser');
 		this.shadowRoot?.querySelector('.results')?.classList.remove('winner');
 		this.shadowRoot?.querySelector('.results')?.classList.add(background);
@@ -41,6 +29,7 @@ class ResultScoreboard extends HTMLElement {
 	render() {
 		this.shadow.innerHTML = `
     <div class='results'>
+      <button class="restart">X</button>
       <result-star></result-star>
       <div class='results__scoreboard'>
         <h4 class='results__scoreboard-title'>Score</h4>
@@ -51,9 +40,18 @@ class ResultScoreboard extends HTMLElement {
           Computadora: <span class='results__scoreboard-counter'>${this.computerCounter}</span>
         </p>
       </div>
-      <custom-button class="play-again-button">Volver a jugar</custom-button>      
-    </div>
-    `;
+      <custom-button class="play-again-button">Volver a jugar</custom-button>     
+      </div>
+      `;
+		/* Poner boton para ir al inicio */
+
+		/* Código para probar el reinicio del tablero de resultados */
+		/* 		const restartButtonEl = this.shadow.querySelector('.restart');
+		restartButtonEl?.addEventListener('click', () => {
+			state.resetScoreboard();
+		}); */
+
+		this.getAttribute('result') === 'computer' ? this.addBackground('loser') : this.addBackground('winner');
 
 		const playAgainButtonEl = this.shadow.querySelector('.play-again-button');
 		playAgainButtonEl?.addEventListener('click', () => {
