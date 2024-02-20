@@ -6,6 +6,7 @@ class ResultScoreboard extends HTMLElement {
 	shadow: ShadowRoot;
 	computerCounter: number = state.getState().gameWins.computer;
 	userCounter: number = state.getState().gameWins.user;
+	win: boolean;
 
 	constructor() {
 		super();
@@ -13,22 +14,16 @@ class ResultScoreboard extends HTMLElement {
 	}
 
 	connectedCallback() {
-		const currentGameGameWins = state.getState().gameWins;
-		this.computerCounter = currentGameGameWins.computer;
-		this.userCounter = currentGameGameWins.user;
+		const currentState = state.getState();
+		this.computerCounter = currentState.gameWins.computer;
+		this.userCounter = currentState.gameWins.user;
+		this.win = currentState.currentGameCounter.winner === 'user';
 		this.render();
 	}
 
-	addBackground(background: Background) {
-		this.shadowRoot?.querySelector('.results')?.classList.remove('loser');
-		this.shadowRoot?.querySelector('.results')?.classList.remove('winner');
-		this.shadowRoot?.querySelector('.results')?.classList.add(background);
-	}
-
-	/* El contenedor "results" y "result-star" tiene que tener ${userData} para saber si ganó o perdió, esa userData se la trae del state */
 	render() {
 		this.shadow.innerHTML = `
-    <div class='results'>
+    <div class='results ${this.win ? 'winner' : 'loser'}'>
       <result-star></result-star>
       <div class='results__scoreboard'>
         <h4 class='results__scoreboard-title'>Score</h4>
@@ -50,8 +45,6 @@ class ResultScoreboard extends HTMLElement {
 		restartButtonEl?.addEventListener('click', () => {
 			state.resetScoreboard();
 		}); */
-
-		this.getAttribute('result') === 'computer' ? this.addBackground('loser') : this.addBackground('winner');
 
 		const playAgainButtonEl = this.shadow.querySelector('.play-again-button');
 		playAgainButtonEl?.addEventListener('click', () => {

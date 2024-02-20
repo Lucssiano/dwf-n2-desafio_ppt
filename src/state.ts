@@ -14,6 +14,7 @@ export const state = {
 		currentGameCounter: {
 			computer: 0,
 			user: 0,
+			winner: '',
 		},
 		gameWins: {
 			computer: 0,
@@ -21,9 +22,8 @@ export const state = {
 		},
 	},
 	listeners: [],
+	/* Ver llamadas de mas al state !!!!*/
 	init() {
-		// localStorage.removeItem('state');
-		// this.resetGameCounter();
 		const savedState = localStorage.getItem('state');
 		if (savedState) this.setState(JSON.parse(savedState));
 	},
@@ -55,12 +55,14 @@ export const state = {
 	addWin(player: Player) {
 		const currentState = this.getState();
 		currentState.gameWins[player]++;
+		currentState.currentGameCounter.winner = player;
 		this.setState(currentState);
 	},
 	resetGameCounter() {
 		const currentState = this.getState();
 		currentState.currentGameCounter.user = 0;
 		currentState.currentGameCounter.computer = 0;
+		currentState.currentGameCounter.winner = '';
 		this.setState(currentState);
 	},
 	setPlayWinner() {

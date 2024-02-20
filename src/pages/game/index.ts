@@ -69,8 +69,6 @@ function startGame(container) {
 		}
 	}, 1000);
 
-	/* Puedo hacer que las funciones me devuelvan la mano que se utilizo */
-
 	userHandsArray.forEach((hand) => {
 		(hand as HTMLElement).addEventListener('click', (e) => {
 			e.stopImmediatePropagation();

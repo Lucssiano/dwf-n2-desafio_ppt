@@ -22,17 +22,12 @@ const routes = [
 		path: /\/game/,
 		component: gamePage,
 	},
-	// {
-	// 	path: /\/dwf-n2-ejercicio_wizard\/thankyou/,
-	// 	/* /\/thankyou/ */
-	// 	component: thankYouPage,
-	// },
 ];
 
 export function initRouter(container: Element) {
 	function goTo(path) {
 		const completePath = isGithubPages() ? BASE_PATH + path : path;
-		history.pushState({}, '', completePath);
+		history.pushState({}, '', completePath); /* Vi que parece ser mejor replaceState */
 		handleRoute(completePath);
 	}
 
@@ -54,7 +49,9 @@ export function initRouter(container: Element) {
 		handleRoute(location.pathname);
 		state.resetGameCounter();
 	});
-	window.addEventListener('load', () => state.resetGameCounter());
-}
 
-/* Me funciona mal el juego en "produccion" */
+	window.addEventListener('load', () => {
+		handleRoute(location.pathname); // En producción si no pongo esto se cae la página
+		state.resetGameCounter();
+	});
+}

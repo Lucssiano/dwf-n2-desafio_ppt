@@ -15,19 +15,16 @@ class ResultStar extends HTMLElement {
 	}
 
 	connectedCallback() {
-		console.log(this.parentElement);
-		console.log(this.parentElement?.classList.contains('loser'));
-		console.log(this.parentElement?.classList.contains('winner'));
-		// this.win = this.parentElement?.classList.contains('winner') || false;
-		// this.win = this.parentElement?.getAttribute('result') === 'user';
-		// console.log(this.parentElement?.getAttribute('result'));
-		// console.log(this.win);
+		this.win = state.getState().currentGameCounter.winner === 'user';
 		this.render();
 	}
 
 	render() {
-		this.shadow.innerHTML = ` <img src="${this.win ? stars.winStar : stars.loseStar}" alt="Win star" class="star-img"> `;
-		/* No puedo cambiar la imagen, no me funciona bien */
+		this.shadow.innerHTML = ` 
+		<div class="star-container">
+			<img src="${this.win ? stars.winStar : stars.loseStar}" alt="Win star" class="star-img"> 
+		</div>
+			`;
 
 		const style = document.createElement('style');
 		style.innerHTML = `
