@@ -1,3 +1,5 @@
+import { state } from '../../state';
+
 export function rulesPage(params) {
 	const div = document.createElement('div');
 	div.classList.add('rules-container');
@@ -10,7 +12,8 @@ export function rulesPage(params) {
           <p class="paragraph">
               El primer jugador en ganar 3 rondas es el ganador del juego.
           </p>
-          <custom-button>¡Jugar!</custom-button>
+          <custom-button size="small">¡Jugar!</custom-button>
+          <custom-button size="small" color="red" class="restart-button">Reiniciar estadisticas</custom-button>
         </div>
         <div class="hands-container">
             <custom-hand type="rock"></custom-hand>
@@ -19,7 +22,10 @@ export function rulesPage(params) {
         </div>
     `;
 
-	/* Poner boton para reiniciar resultados */
+	const restartButtonEl = div.querySelector('.restart-button');
+	restartButtonEl?.addEventListener('click', () => {
+		state.resetScoreboard();
+	});
 
 	const button = div.querySelector('custom-button');
 	button?.addEventListener('click', () => params.goTo('/game'));

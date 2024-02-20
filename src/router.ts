@@ -48,6 +48,7 @@ export function initRouter(container: Element) {
 	window.addEventListener('popstate', function (event) {
 		handleRoute(location.pathname);
 		state.resetGameCounter();
+		/* Cuando cambio de rutas se bugea el state */
 	});
 
 	window.addEventListener('load', () => {

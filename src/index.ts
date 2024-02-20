@@ -8,6 +8,8 @@ import './components/result-star';
 
 (function main() {
 	const root = document.querySelector('.root');
-	if (root) initRouter(root);
-	state.init();
+	if (root) {
+		state.init();
+		initRouter(root);
+	}
 })();

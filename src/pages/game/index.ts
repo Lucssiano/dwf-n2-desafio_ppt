@@ -30,6 +30,11 @@ export function gamePage(params) {
 		resetGame(div);
 	});
 
+	div.addEventListener('goToRules', () => {
+		state.resetGameCounter();
+		params.goTo('/rules');
+	});
+
 	return div;
 }
 

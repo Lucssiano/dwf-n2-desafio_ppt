@@ -1,7 +1,5 @@
 import { state } from '../../state';
 
-type Background = 'winner' | 'loser';
-
 class ResultScoreboard extends HTMLElement {
 	shadow: ShadowRoot;
 	computerCounter: number = state.getState().gameWins.computer;
@@ -34,21 +32,21 @@ class ResultScoreboard extends HTMLElement {
           Computadora: <span class='results__scoreboard-counter'>${this.computerCounter}</span>
         </p>
       </div>
-      <custom-button class="play-again-button">Volver a jugar</custom-button>     
+      <custom-button size="small" class="play-again-button">Volver a jugar</custom-button>     
+      <custom-button size="small" color="violet" class="go-to-menu-button">Volver al inicio</custom-button>     
       </div>
       `;
-		/* Poner boton para ir al inicio */
-		// <button class="restart">X</button>
-
-		/* Código para probar el reinicio del tablero de resultados */
-		/* 		const restartButtonEl = this.shadow.querySelector('.restart');
-		restartButtonEl?.addEventListener('click', () => {
-			state.resetScoreboard();
-		}); */
 
 		const playAgainButtonEl = this.shadow.querySelector('.play-again-button');
 		playAgainButtonEl?.addEventListener('click', () => {
 			const event = new CustomEvent('playAgain');
+			this.parentElement?.dispatchEvent(event);
+			this.remove();
+		});
+
+		const goToMenuButtonEl = this.shadow.querySelector('.go-to-menu-button');
+		goToMenuButtonEl?.addEventListener('click', () => {
+			const event = new CustomEvent('goToRules');
 			this.parentElement?.dispatchEvent(event);
 			this.remove();
 		});
@@ -78,7 +76,7 @@ class ResultScoreboard extends HTMLElement {
           border: 10px solid #000;
           background-color: #fff;
           width: 230px;
-          height: 180px;
+          height: 160px;
           padding: 15px;
         }
         .results__scoreboard-title {
@@ -90,7 +88,7 @@ class ResultScoreboard extends HTMLElement {
           margin: 5px 0;
           text-align: right;
           font-size: 40px;
-        } 
+        }
     `;
 
 		this.shadow.appendChild(style);
