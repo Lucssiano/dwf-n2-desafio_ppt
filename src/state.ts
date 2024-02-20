@@ -23,6 +23,7 @@ export const state = {
 	listeners: [],
 	init() {
 		// localStorage.removeItem('state');
+		// this.resetGameCounter();
 		const savedState = localStorage.getItem('state');
 		if (savedState) this.setState(JSON.parse(savedState));
 	},

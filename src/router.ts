@@ -1,7 +1,7 @@
 import { homePage } from './pages/home';
 import { rulesPage } from './pages/rules';
 import { gamePage } from './pages/game';
-// import { resultsPage} from "./pages/results";
+import { state } from './state';
 
 const BASE_PATH = '/dwf-n2-desafio_ppt';
 
@@ -50,5 +50,11 @@ export function initRouter(container: Element) {
 	if (location.pathname === '/' || isGithubPages()) goTo('/home');
 	else handleRoute(location.pathname);
 
-	window.onpopstate = () => handleRoute(location.pathname);
+	window.addEventListener('popstate', function (event) {
+		handleRoute(location.pathname);
+		state.resetGameCounter();
+	});
+	window.addEventListener('load', () => state.resetGameCounter());
 }
+
+/* Me funciona mal el juego en "produccion" */

@@ -29,7 +29,6 @@ class ResultScoreboard extends HTMLElement {
 	render() {
 		this.shadow.innerHTML = `
     <div class='results'>
-      <button class="restart">X</button>
       <result-star></result-star>
       <div class='results__scoreboard'>
         <h4 class='results__scoreboard-title'>Score</h4>
@@ -44,6 +43,7 @@ class ResultScoreboard extends HTMLElement {
       </div>
       `;
 		/* Poner boton para ir al inicio */
+		// <button class="restart">X</button>
 
 		/* Código para probar el reinicio del tablero de resultados */
 		/* 		const restartButtonEl = this.shadow.querySelector('.restart');
